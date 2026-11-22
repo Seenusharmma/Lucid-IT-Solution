@@ -1,4 +1,4 @@
-import { lazy, Suspense, useCallback, useEffect, useMemo, useState } from 'react'
+import { lazy, Suspense, useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { AppContext } from './context/AppContext'
 import Navbar from './components/layout/Navbar'
 import Footer from './components/layout/Footer'
@@ -34,6 +34,10 @@ export default function App() {
     return () => document.body.classList.remove('overflow-hidden')
   }, [booting])
 
+  useLayoutEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
+  }, [view])
+
   const scrollToSection = useCallback((id) => {
     const element = document.getElementById(id)
     if (!element) return
@@ -46,7 +50,7 @@ export default function App() {
     if (nextView && nextView !== 'home') {
       setView(nextView)
       setActiveNav(nextView)
-      window.scrollTo({ top: 0, behavior: 'smooth' })
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
       return
     }
 
@@ -55,7 +59,7 @@ export default function App() {
     if (sectionId) {
       window.setTimeout(() => scrollToSection(sectionId), 60)
     } else {
-      window.scrollTo({ top: 0, behavior: 'smooth' })
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
     }
   }, [scrollToSection])
 
@@ -86,7 +90,7 @@ export default function App() {
     setSolutionKey(key)
     setView('solution')
     setActiveNav('solutions')
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' })
   }, [])
 
   const contextValue = useMemo(() => ({
